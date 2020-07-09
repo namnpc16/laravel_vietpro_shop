@@ -45,7 +45,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Backend'], function () {
         Route::get('/create', 'ProductController@add_product')->name('product.create');
         Route::post('/store', 'ProductController@store_product')->name('product.store');
         Route::get('/edit/{id}', 'ProductController@edit_product')->name('product.edit');
+        Route::post('/save/{id}', 'ProductController@save_product')->name('product.save');
         Route::get('/del/{id}', 'ProductController@del_product')->name('product.del');
+
+        Route::get('/active/{id}', 'ProductController@active_product')->name('product.active');
+        Route::get('/deactive/{id}', 'ProductController@deactive_product')->name('product.deactive');
     });
     // Categories
     Route::group(['prefix' => 'categories', 'namespace' => 'Category'], function () {

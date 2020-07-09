@@ -23,10 +23,7 @@
                                 <div class="form-group">
                                     <label>Danh mục</label>
                                     <select name="category" class="form-control">
-                                        <option value='1' selected>Nam</option>
-                                        <option value='3'>---|Áo khoác nam</option>
-                                        <option value='2'>Nữ</option>
-                                        <option value='4'>---|Áo khoác nữ</option>
+                                        {{ GetCategory($categories, 0, "") }}
                                     </select>
                                     {!! showError($errors, 'category') !!}
                                 </div>

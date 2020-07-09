@@ -42,7 +42,8 @@
         ],
         "files": [
             "app/Helpers/function.php",
-            "app/Helpers/category_function.php"
+            "app/Helpers/category_function.php",
+            "app/Helpers/product_function.php"
         ]
     },
     "autoload-dev": {
