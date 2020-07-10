@@ -25,7 +25,7 @@ class editProductRequest extends FormRequest
     {
         return [
             'category' => 'required',
-            'code' => 'required|unique:products,id',
+            'code' => 'required|unique:products,code,'.$this->id,
             'name' => 'required|max:255',
             'price' => 'required|max:50',
             'featured' => 'required',

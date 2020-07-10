@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Hash;
 */
 
 // login
-Route::get('login', 'Backend\AdminController@login');
+Route::get('login', 'Backend\AdminController@login')->name('login.get');
+Route::get('logout', 'Backend\AdminController@logout')->name('logout.get');
 Route::post('login', 'Backend\AdminController@post_login');
 
 // Frontend

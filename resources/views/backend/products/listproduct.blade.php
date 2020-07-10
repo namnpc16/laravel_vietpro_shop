@@ -36,6 +36,7 @@
 								</svg>Đã thêm thành công<a href="#" class="pull-right"><span class="glyphicon glyphicon-remove"></span></a>
 							</div>
 							<a href="{{ route('product.create') }}" class="btn btn-primary">Thêm sản phẩm</a>
+							<h3>Tổng số sản phẩm là: {{ count($products) }}</h3>
 							<table class="table table-bordered" style="margin-top:20px;">
 
 								<thead>

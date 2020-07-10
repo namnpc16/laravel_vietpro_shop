@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\LoginRequest; 
+use App\Http\Requests\LoginRequest;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -15,7 +16,18 @@ class AdminController extends Controller
 
     public function post_login(LoginRequest $request)
     {
-        
+        $email = $request->email;
+        $password = $request->password;
+        if (Auth::attempt(['email' => $email, 'password' => $password])) {
+            return redirect()->route('admin.index');
+        }else {
+            return redirect()->route('login.get');
+        }
+    }
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('login.get');
     }
 
     public function index()
