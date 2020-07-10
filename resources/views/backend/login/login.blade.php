@@ -31,7 +31,11 @@
 							<div class="form-group">
 								<input class="form-control" placeholder="Password" value="{{ old('password') }}" name="password" type="password" value="">
 								{!! showError($errors, 'password') !!}
+								@if (session('thong_bao'))
+									<small style="color: red; margin-left: 5px">{{ session('thong_bao') }}</small>
+								@endif
 							</div>
+							
 							{{-- @if ($errors->any())
 								<div class="alert alert-danger">
 									@foreach ($errors->all() as $error)
