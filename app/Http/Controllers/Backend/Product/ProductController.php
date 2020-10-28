@@ -4,107 +4,147 @@ namespace App\Http\Controllers\Backend\Product;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\ProductRequest;
-use App\Http\Requests\editProductRequest;
-use App\Models\CategoryModel;
-use App\Models\ProductsModel;
-use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\{ ProductRequest, EditProductRequest, RepositoryInterface };
+use App\Repositories\{ ProductRepository, CategoryRepository };
+use Illuminate\Support\Str;
+use App\Http\Uploads\ProductService;
 
 class ProductController extends Controller
 {
-    public function list_product()
+    /**
+     * Products Repository
+     * @var $productRepository
+     * 
+     * Categories Repository 
+     * @var $categoryRepository
+     */
+    protected $productRepository, $categoryRepository;
+
+    /**
+     * Create new controller
+     * 
+     * @param ProductRepository $productRepository
+     * @param CategoryRepository $categoryRepository
+     * @return void
+     */
+    public function __construct(
+        ProductRepository $productRepository,
+        CategoryRepository $categoryRepository
+    )
     {
-        $products = ProductsModel::all();
-        return view('backend.products.listproduct', ['products' => $products]);
+        $this->productRepository = $productRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
-    public function add_product()
+    /*--------------------Config--------------------*/
+
+    /**
+     * Generate slug product
+     * 
+     * @param string $slug
+     * @return String
+     */
+    private function slug($slug)
     {
-        $categories = CategoryModel::all();
-        return view('backend.products.addproduct', ['categories' => $categories]);
+        return Str::slug($slug . ' ' . time(), '-');
+    }    
+
+    /*-------------------EndConfig-------------------*/
+
+    /**
+     * Get all
+     * 
+     * @return View
+     */
+    public function all()
+    {
+        return view('backend.products.listproduct', ['products' => $this->productRepository->all()]);
     }
 
-    public function store_product(ProductRequest $request)
+    /**
+     * Create product
+     * 
+     * @return View
+     */
+    public function create()
     {
-        $product = new ProductsModel();
-        $product['category_id'] = $request->category;
-        $product['code'] = $request->code;
-        $product['name'] = $request->name;
-        $product['price'] = $request->price;
-        $product['featured'] = $request->featured;
-        $product['state'] = $request->state;
-        // upload ảnh
-        $get_img = $request->file('img');
-        $get_name_img = $get_img->getClientOriginalName();
-        $name_first_img = current(explode(".", $get_name_img))." ".rand(0, 1000);
-        $new_name_img = $name_first_img.".".$get_img->getClientOriginalExtension();
-        $get_img->move("public/img", $new_name_img);
-        // end upload ảnh
-        $product['img'] = $new_name_img;
-        $product['info'] = $request->info;
-        $product['description'] = $request->describe;
-        $product->save();
-        return redirect()->route('product.index');
+        return view('backend.products.addproduct', ['categories' => $this->categoryRepository->all()]);
     }
 
-    public function edit_product($id)
+    /**
+     * Store product
+     * 
+     * @param ProductRequest $request
+     * @return Redirect
+     */
+    public function store(ProductRequest $request)
     {
-        $product = ProductsModel::find($id);
-        $categories = CategoryModel::all();
-        return view('backend.products.editproduct', ['product' => $product, 'categories' => $categories]);
+        $image = ProductService::upLoadImage($request->file('img'));
+        $product = $request->all();
+        $product['slug'] = $this->slug($request->name);
+        $product['img'] = $image;
+        $this->productRepository->create($product);
+
+        return redirect()->route('product.index')->with('success', __('message.product.create', ['name' => 'sản phẩm']));
     }
 
-    public function save_product(editProductRequest $request, $id)
+    /**
+     * Edit product
+     * 
+     * @param int $id
+     * @return View
+     */
+    public function edit($id)
     {
-        $product = ProductsModel::find($id);
-        $product['category_id'] = $request->category;
-        $product['code'] = $request->code;
-        $product['name'] = $request->name;
-        $product['price'] = $request->price;
-        $product['featured'] = $request->featured;
-        $product['state'] = $request->state;
-        // upload ảnh
-        $get_img = $request->file('img');
-        if ($get_img) {
-            $get_name_img = $get_img->getClientOriginalName();
-            $name_first_img = current(explode(".", $get_name_img))." ".rand(0, 1000);
-            $new_name_img = $name_first_img.".".$get_img->getClientOriginalExtension();
-            $get_img->move("public/img", $new_name_img);
-            $product['img'] = $new_name_img;
-        }else{
-            $product['img'] = $product['img'];
-        }
-        // end upload ảnh
-        $product['info'] = $request->info;
-        $product['description'] = $request->describe;
-        $product->save();
-        return redirect()->route('product.index');
+        $data['product'] = $this->productRepository->find($id);
+        $data['categories'] = $this->categoryRepository->all();
 
+        return view('backend.products.editproduct', $data);
     }
 
-    public function del_product($id)
+    /**
+     * Update product
+     * 
+     * @param EditProductRequest $request
+     * @param int $id
+     * @return Redirect
+     */
+    public function save(EditProductRequest $request, $id)
     {
-        $product = ProductsModel::find($id);
-        $product->delete();
-        return redirect()->route('product.index');
+        $product = $request->all();
+        $image = ProductService::upLoadEditImage($request->file('img'), $id);
+        $product['slug'] = $this->slug($request->name);
+        $product['img'] = $image;
+        $this->productRepository->update($product, $id);
+
+        return redirect()->route('product.index')->with('success', __('message.product.update', ['name' => 'sản phẩm']));
     }
 
-    public function active_product($id)
+    /**
+     * Delete product
+     * 
+     * @param int $id
+     * @return Redirect
+     */
+    public function delete($id)
     {
-        $product = ProductsModel::find($id);
-        if ($product["state"] == 0) {
-            $product["state"] = 1;
-        }
-        $product->save();
-        return redirect()->route('product.index');
+        $delete = $this->productRepository->find($id);
+        ProductService::destroyImage($delete);
+        $this->productRepository->delete($id);
+
+        return redirect()->route('product.index')->with('success', __('message.product.delete', ['name' => 'sản phẩm']));
     }
-    public function deactive_product($id)
+
+    /**
+     * Active and Deactive product
+     * 
+     * @param int $id
+     * @return Redirect
+     */
+    public function status($id)
     {
-        $product = ProductsModel::find($id);
-        if ($product["state"] == 1) {
-            $product["state"] = 0;
-        }
-        $product->save();
-        return redirect()->route('product.index');
+        $this->productRepository->status($id);
+
+        return redirect()->route('product.index')->with('success', __('message.product.state', ['name' => 'sản phẩm']));
     }
 }

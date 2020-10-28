@@ -22,10 +22,10 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label>Danh mục</label>
-                                    <select name="category" class="form-control">
+                                    <select name="category_id" class="form-control">
                                         {{ GetCategory($categories, 0, "") }}
                                     </select>
-                                    {!! showError($errors, 'category') !!}
+                                    {!! showError($errors, 'category_id') !!}
                                 </div>
                                 <div class="form-group">
                                     <label>Mã sản phẩm</label>
@@ -80,10 +80,10 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Miêu tả</label>
-                                        <textarea id="editor" name="describe" style="width: 100%;height: 100px;">{{ old('describe') }}</textarea>
-                                        {!! showError($errors, 'describe') !!}
+                                        <textarea id="editor" name="description" style="width: 100%;height: 100px;">{{ old('description') }}</textarea>
+                                        {!! showError($errors, 'description') !!}
                                     </div>
-                                    <button class="btn btn-success" name="add-product" type="submit">Thêm sản phẩm</button>
+                                    <button class="btn btn-success" type="submit">Thêm sản phẩm</button>
                                     <button class="btn btn-danger" type="reset">Huỷ bỏ</button>
                                 </div>
                             </div>

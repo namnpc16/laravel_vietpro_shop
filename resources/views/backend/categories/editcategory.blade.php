@@ -28,32 +28,32 @@
 			<div class="panel panel-default">
 				<div class="panel-body">
 					<div class="row">
-						<form action="{{ route('category.save', ["id" => $cates['id']]) }}" method="post">
+						<form action="{{ route('category.save', ["id" => $category['id']]) }}" method="post">
 							@csrf
 							<div class="col-md-5">
 								<div class="form-group">
 									<label for="">Danh mục cha:</label>
-									<select class="form-control" name="parent" >
+									<select class="form-control" name="parent_id" >
 										<option value="0">----ROOT----</option>
 											<?php 
 												function GetCategoryEdit($mang, $parent, $shift, $id_select)
 												{
 													foreach ($mang as $key => $category) {
-														if ($category['parent'] == $parent) {
+														if ($category['parent_id'] == $parent) {
 											?>
-															<option <?php if($id_select['id'] == $category['id']){ echo "disabled style='color: red'"; } ?>   <?php if($id_select['parent'] == $category['id']){ echo "selected"; } ?> value="{{ $category['id'] }}">{{ $shift.$category['name'] }}</option>';
+															<option <?php if($id_select['id'] == $category['id']){ echo "disabled style='color: red'"; } ?>   <?php if($id_select['parent_id'] == $category['id']){ echo "selected"; } ?> value="{{ $category['id'] }}">{{ $shift.$category['name'] }}</option>';
 											<?php
 															GetCategoryEdit($mang, $category['id'], $shift." - - | ", $id_select);
 														}
 													}
 												}
-												GetCategoryEdit($categories, 0, "", $cates);
+												GetCategoryEdit($categories, 0, "", $category);
 											?>
 									</select>
 								</div>
 								<div class="form-group">
 									<label for="">Tên Danh mục</label>
-									<input type="text" class="form-control" name="name"  placeholder="Tên danh mục mới" value="{{ $cates['name'] }}">
+									<input type="text" class="form-control" name="name"  placeholder="Tên danh mục mới" value="{{ $category['name'] }}">
 									{{-- <div class="alert bg-danger" role="alert">
 										<svg class="glyph stroked cancel">
 											<use xlink:href="#stroked-cancel"></use>
@@ -73,10 +73,10 @@
 							<div class="vertical-menu">
 								<div class="item-menu active">Danh mục </div>
 								<?php
-									function showCategory($mang, $parent, $shift, $id_select){
+									function showCategoryEdit($mang, $parent, $shift, $id_select){
 										// echo 'số lần lặp '. count($mang)."<br>";
 										foreach ($mang as $key => $category) {
-											if ($category['parent'] == $parent) {
+											if ($category['parent_id'] == $parent) {
 								?>
 												<div class="item-menu <?php if($id_select['id'] == $category['id']){ echo "active";} ?>"><span>{{ $shift.$category['name'] }} </span>
 													<div class="category-fix">
@@ -86,11 +86,11 @@
 												</div>
 								<?php
 												unset($mang[$key]);
-												showCategory($mang, $category['id'], $shift." - - | ", $id_select);	
+												showCategoryEdit($mang, $category['id'], $shift." - - | ", $id_select);	
 											}
 										}
 									}
-									showCategory($categories, 0, "", $cates);
+									showCategoryEdit($categories, 0, "", $category);
 								?>
 							</div>
 						</div>

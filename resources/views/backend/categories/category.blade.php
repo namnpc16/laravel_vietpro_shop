@@ -25,6 +25,13 @@
 		<div class="col-md-12">
 			<div class="panel panel-default">
 				<div class="panel-body">
+					@if (session('success'))
+						<div class="alert bg-success" role="alert">
+							<svg class="glyph stroked checkmark">
+								<use xlink:href="#stroked-checkmark"></use>
+							</svg>{{ session('success') }}<a href="#" class="pull-right"><span class="glyphicon glyphicon-remove"></span></a>
+						</div>
+					@endif
 					<div class="row">
 						<form action="{{ route('category.create') }}" method="POST">
 							@csrf
@@ -38,8 +45,8 @@
 								</div>
 								<div class="form-group">
 									<label for="">Tên Danh mục</label>
-									<input type="text" class="form-control" name="name_category" id="" placeholder="Tên danh mục mới">
-	
+									<input type="text" class="form-control" name="name" id="" value="{{ old('name') }}" placeholder="Tên danh mục mới">
+									{!! showError($errors, 'name') !!}
 									{{-- <div class="alert bg-danger" role="alert">
 										<svg class="glyph stroked cancel">
 											<use xlink:href="#stroked-cancel"></use>
@@ -50,42 +57,11 @@
 							</div>
 						</form>
 						<div class="col-md-7">
-							<?php
-								if (Session::has('success')) {
-									?>
-									<div class="alert bg-success" role="alert">
-										<svg class="glyph stroked checkmark">
-											<use xlink:href="#stroked-checkmark"></use>
-										</svg> Đã thêm danh mục thành công! <a href="#" class="pull-right"><span class="glyphicon glyphicon-remove"></span></a>
-									</div>
-									<?php
-									Session::put('success', null);
-								}	
-							?>
+							
 							<h3 style="margin: 0;"><strong>Phân cấp Menu</strong></h3>
 							<div class="vertical-menu">
 								<div class="item-menu active">Danh mục </div>
-								<?php
-									function showCategory($mang, $parent, $shift){
-										// echo 'số lần lặp '. count($mang)."<br>";
-										foreach ($mang as $key => $category) {
-											if ($category['parent'] == $parent) {
-								?>
-												<div class="item-menu"><span>{{ $shift.$category['name'] }} </span>
-													<div class="category-fix">
-														<a class="btn-category btn-primary" href="{{ route('category.edit', ["id" => $category["id"]]) }}"><i class="fa fa-edit"></i></a>
-														<a class="btn-category btn-danger" onclick="return confirm('Bạn có muốn xóa danh mục ?')" href="{{ route('category.del', ["id" => $category["id"]]) }}"><i class="fas fa-times"></i></i></a>
-													</div>
-												</div>
-								<?php
-												unset($mang[$key]);
-												showCategory($mang, $category['id'], $shift." - - | ");	
-											}
-										}
-									}
-									showCategory($categories, 0, "");
-								?>
-								
+								{{ showCategory($categories, 0, "") }}
 							</div>
 						</div>
 					</div>

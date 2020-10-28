@@ -22,7 +22,7 @@
 
 	<!-- Theme style  -->
 	<link rel="stylesheet" href="css/style.css">
-	<link rel="stylesheet" href="css/custome.css">
+	<link rel="stylesheet" href="css/custome.css?id="{{date('Ymd')}};>
 
 
 
@@ -37,22 +37,22 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-xs-2">
-							<div id="colorlib-logo"><a href="index.html"><img src="images/logo.png" alt="" style="width: 300px;height: 50px;"></a></div>
+							<div id="colorlib-logo"><a href="{{ route('frontend.index') }}"><img src="images/logo.png" alt="" style="width: 300px;height: 50px;"></a></div>
 						</div>
 						<div class="col-xs-10 text-right menu-1">
 							<ul>
 								<li class="active"><a href="{{ route('frontend.index') }}">Trang chủ</a></li>
 								<li class="has-dropdown">
-									<a href="shop.html">Cửa hàng</a>
+									<a href="{{ route('frontend.index') }}">Cửa hàng</a>
 									<ul class="dropdown">
-										<li><a href="cart.html">Giỏ hàng</a></li>
-										<li><a href="checkout.html">Thanh toán</a></li>
+										<li><a href="{{ route('cart') }}">Giỏ hàng</a></li>
+										<li><a href="{{ route('checkout') }}">Thanh toán</a></li>
 
 									</ul>
 								</li>
 								<li><a href="{{ route('about') }}">Giới thiệu</a></li>
 								<li><a href="{{ route('contact') }}">Liên hệ</a></li>
-								<li><a href="cart.html"><i class="icon-shopping-cart"></i> Giỏ hàng [0]</a></li>
+								<li><a href="{{ route('cart') }}"><i class="icon-shopping-cart"></i> Giỏ hàng [{{ count(Cart::content()) }}]</a></li>
 							</ul>
 						</div>
 					</div>
@@ -162,9 +162,9 @@
 						<p>
 							<ul class="colorlib-social-icons">
 							
-								<li><a href="https://www.facebook.com/vietpro.edu/"><i class="icon-facebook"></i></a></li>
+								{{-- <li><a href="https://www.facebook.com/vietpro.edu/"><i class="icon-facebook"></i></a></li>
 								
-								<li><a href="https://www.youtube.com/channel/UCLjRjXUSy3g9iKRWTyw75Nw"><i class="icon-youtube"></i></a></li>
+								<li><a href="https://www.youtube.com/channel/UCLjRjXUSy3g9iKRWTyw75Nw"><i class="icon-youtube"></i></a></li> --}}
 							</ul>
 						</p>
 					</div>
@@ -199,8 +199,8 @@
 						<ul class="colorlib-footer-links">
 							<li>Số nhà B8A ngõ 18 đường Võ Văn Dũng - Hoàng Cầu - Đống Đa - Hà Nội</li>
 							<li><a href="tel://1234567920">0988 550 553</a></li>
-							<li><a href="mailto:info@yoursite.com">info@yoursite.com</a></li>
-							<li><a href="#">http://vietpro.edu.vn</a></li>
+							{{-- <li><a href="mailto:info@yoursite.com">info@yoursite.com</a></li> --}}
+							{{-- <li><a href="#">http://vietpro.edu.vn</a></li> --}}
 						</ul>
 					</div>
 				</div>

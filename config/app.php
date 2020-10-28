@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Bangkok',
 
     /*
     |--------------------------------------------------------------------------
@@ -175,6 +175,12 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        App\Providers\RepositoryServiceProvider::class,
+
+        Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
+
+        Lord\Laroute\LarouteServiceProvider::class,
+
     ],
 
     /*
@@ -226,6 +232,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
 
     ],
 

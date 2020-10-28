@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class editProductRequest extends FormRequest
+class EditProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class editProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'category' => 'required',
+            'category_id' => 'required',
             'code' => 'required|unique:products,code,'.$this->id,
             'name' => 'required|max:255',
             'price' => 'required|max:50',
@@ -32,14 +32,14 @@ class editProductRequest extends FormRequest
             'state' => 'required',
             'img' => 'mimes:jpeg,jpg,png',
             'info' => 'required',
-            'describe' => 'required'
+            'description' => 'required'
         ];
     }
 
     public function messages()
     {
         return [
-            'category.required' => 'Danh mục không được để trống',
+            'category_id.required' => 'Danh mục không được để trống',
 
             'code.required' => 'Mã sản phẩm không được để trống',
             'code.unique' => 'Mã sản phẩm đã tồn tại',
@@ -56,7 +56,7 @@ class editProductRequest extends FormRequest
             'img.mimes' => 'Vui lòng chọn file ảnh',
 
             'info.required' => 'Info sản phẩm không được để trống',
-            'describe.required' => 'Mô tả sản phẩm không được để trống',
+            'description.required' => 'Mô tả sản phẩm không được để trống',
         ];
     }
 }

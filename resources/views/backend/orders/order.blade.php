@@ -23,7 +23,7 @@
 					<div class="bootstrap-table">
 						<div class="table-responsive">
 
-							<a href="processed.html" class="btn btn-success">Đơn đã xử lý</a>
+							<a href="{{ route('order.process') }}" class="btn btn-success">Đơn đã xử lý</a>
 							<table class="table table-bordered" style="margin-top:20px;">
 								<thead>
 									<tr class="bg-primary">
@@ -36,16 +36,17 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>1</td>
-										<td>Nguyễn Thế Phúc</td>
-										<td>0356653300</td>
-										<td>Thường tín</td>
-										<td>
-											<a href="detailorder.html" class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i>Xử lý</a>
-
-										</td>
-									</tr>
+									@foreach ($orders as $item)
+											<tr>
+												<td>{{ $item->id }}</td>
+												<td>{{ $item->name }}</td>
+												<td>{{ $item->phone }}</td>
+												<td>{{ $item->address }}</td>
+												<td>
+													<a href="{{ route('order.detail', ['id' => $item->id]) }}" class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i>Xử lý</a>
+												</td>
+											</tr>
+									@endforeach
 
 								</tbody>
 							</table>

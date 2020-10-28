@@ -19,10 +19,25 @@
 
 			<div class="panel panel-primary">
 				<div class="panel-heading">Danh sách đơn đặt hàng đã xử lý</div>
+				@if (session('success'))
+				<div class="alert bg-success" style="margin-top: 20px" role="alert">
+					<svg class="glyph stroked checkmark">
+						<use xlink:href="#stroked-checkmark"></use>
+					</svg>{{ session('success') }}<a href="#" class="pull-right"><span class="glyphicon glyphicon-remove"></span></a>
+				</div>
+				@endif
+
+				@if (session('faild'))
+					<div class="alert bg-danger" style="margin-top: 20px" role="alert">
+						<svg class="glyph stroked checkmark">
+							<use xlink:href="#stroked-checkmark"></use>
+						</svg>{{ session('faild') }}<a href="#" class="pull-right"><span class="glyphicon glyphicon-remove"></span></a>
+					</div>
+				@endif
 				<div class="panel-body">
 					<div class="bootstrap-table">
 						<div class="table-responsive">
-							<a href="#" class="btn btn-warning"><span class="glyphicon glyphicon-gift"></span>Đơn Chưa xử lý</a>
+							<a href="{{ route('order.index') }}" class="btn btn-warning"><span class="glyphicon glyphicon-gift"></span>Đơn Chưa xử lý</a>
 							<table class="table table-bordered" style="margin-top:20px;">				
 								<thead>
 									<tr class="bg-primary">
@@ -35,22 +50,16 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>2</td>
-										<td>Nguyễn văn An</td>
-										<td>Lu@gmail.com</td>
-										<td>015232412</td>
-										<td>Bắc ninh</td>
-										<td>2018-12-06 12:17:17</td>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td>Nguyễn thế phúc</td>
-										<td>admin@gmail.com</td>
-										<td>0906013526</td>
-										<td>Thường tín , hà nội</td>
-										<td>2018-12-06 02:05:30</td>                                                                                
-									</tr>
+									@foreach ($orders as $item)
+										<tr>
+											<td>{{ $item->id }}</td>
+											<td>{{ $item->name }}</td>
+											<td>{{ $item->email }}</td>
+											<td>{{ $item->phone }}</td>
+											<td>{{ $item->address }}</td>
+											<td>{{ $item->updated_at }}</td>
+										</tr>
+									@endforeach
 								</tbody>
 							</table>
 						</div>

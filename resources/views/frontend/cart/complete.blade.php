@@ -28,12 +28,13 @@
 				<span class="icon"><i class="icon-shopping-cart"></i></span>
 				<h2>Cảm ơn bạn đã mua hàng, Đơn hàng của bạn đã đặt thành công</h2>
 				<p>
-					<a href="index.html" class="btn btn-primary">Trang chủ</a>
-					<a href="shop.html" class="btn btn-primary btn-outline">Tiếp tục mua sắm</a>
+					<a href="{{ route('frontend.index') }}" class="btn btn-primary">Trang chủ</a>
+					<a href="{{ route('frontend.index') }}" class="btn btn-primary btn-outline">Tiếp tục mua sắm</a>
 				</p>
 			</div>
 		</div>
-		<div class="row mt-50">
+
+		{{-- <div class="row mt-50">
 			<div class="col-md-4">
 				<h3 class="billing-title mt-20 pl-15">Thông tin đơn hàng</h3>
 				<table class="order-rable">
@@ -103,9 +104,9 @@
 					</tbody>
 				</table>
 			</div>
-		</div>
+		</div> --}}
 	</div>
-	<div class="container">
+	{{-- <div class="container">
 		<div class="billing-form">
 			<div class="row">
 				<div class="col-12">
@@ -142,6 +143,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> --}}
 </div>
 @endsection

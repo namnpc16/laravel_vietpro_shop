@@ -25,13 +25,14 @@
 		</div>
 		<div class="row">
 			<div class="col-md-7">
-					<form method="post" class="colorlib-form">
+					<form method="post" action="{{ route('success.cart') }}" class="colorlib-form">
+						@csrf
 					<h2>Chi tiết thanh toán</h2>
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="fname">Họ & Tên</label>
-								<input type="text" name="full" class="form-control" placeholder="Full Name">
+								<input type="text" name="name" class="form-control" placeholder="Full Name">
 							</div>
 						</div>
 						<div class="col-md-12">
@@ -69,12 +70,13 @@
 						<li>
 
 							<ul>
-								<li><span>1 x Tên sản phẩm</span> <span>₫ 990.000</span></li>
-								<li><span>1 x Tên sản phẩm</span> <span>₫ 780.000</span></li>
+								@foreach ($cart as $item)
+								<li><span>{{ $item->qty }} x Tên sản phẩm</span> <span>₫ {{ number_format($item->qty*$item->price,0,',','.') }}</span></li>
+								@endforeach
 							</ul>
 						</li>
 
-						<li><span>Tổng tiền đơn hàng</span> <span>₫ 1.370.000</span></li>
+						<li><span>Tổng tiền đơn hàng</span> <span>₫ {{ Cart::total() }}</span></li>
 					</ul>
 				</div>
 

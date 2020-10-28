@@ -23,7 +23,7 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label>Danh mục</label>
-                                    <select name="category" class="form-control">
+                                    <select name="category_id" class="form-control">
                                         {{ show_category_edit_product($categories, 0, "", $product->category_id) }}
                                     </select>
                                 </div>
@@ -86,10 +86,10 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Miêu tả</label>
-                                    <textarea id="editor"  name="describe" style="width: 100%;height: 100px;">{{ $product->description }}</textarea>
-                                    {!! showError($errors, 'describe') !!}
+                                    <textarea id="editor"  name="description" style="width: 100%;height: 100px;">{{ $product->description }}</textarea>
+                                    {!! showError($errors, 'description') !!}
                                 </div>
-                                <button class="btn btn-success" name="add-product" type="submit">Sửa sản phẩm</button>
+                                <button class="btn btn-success" type="submit">Sửa sản phẩm</button>
                                 <button class="btn btn-danger" type="reset">Huỷ bỏ</button>
                             </div>
                         </div>

@@ -30,11 +30,13 @@
 				<div class="panel-body">
 					<div class="bootstrap-table">
 						<div class="table-responsive">
+							@if (session('success'))
 							<div class="alert bg-success" role="alert">
 								<svg class="glyph stroked checkmark">
 									<use xlink:href="#stroked-checkmark"></use>
-								</svg>Đã thêm thành công<a href="#" class="pull-right"><span class="glyphicon glyphicon-remove"></span></a>
+								</svg>{{ session('success') }}<a href="#" class="pull-right"><span class="glyphicon glyphicon-remove"></span></a>
 							</div>
+							@endif
 							<a href="{{ route('product.create') }}" class="btn btn-primary">Thêm sản phẩm</a>
 							<h3>Tổng số sản phẩm là: {{ count($products) }}</h3>
 							<table class="table table-bordered" style="margin-top:20px;">
@@ -56,7 +58,7 @@
 											<td>{{ $product->id }}</td>
 											<td>
 												<div class="row">
-													<div class="col-md-3"><img src="{{ asset('') }}/public/img/{{ $product->img }}" alt="Áo đẹp" width="100px" class="thumbnail"></div>
+													<div class="col-md-3"><img src="{{ asset('') }}public/img/{{ $product->img }}" alt="Áo đẹp" width="100px" class="thumbnail"></div>
 													<div class="col-md-9">
 														<p><strong>Mã sản phẩm : {{ $product->code }}</strong></p>
 														<p>Tên sản phẩm : {{ $product->name }}</p>
@@ -66,9 +68,9 @@
 											<td>{{ number_format($product->price) }} VND</td>
 											<td>
 												@if ($product->state == 1)
-													<a class="btn btn-success" href="{{ route('product.deactive', ["id" => $product->id]) }}" role="button">Còn hàng</a>
+													<a class="btn btn-success" href="{{ route('product.status', ["id" => $product->id]) }}" role="button">Còn hàng</a>
 												@else
-													<a class="btn btn-danger" href="{{ route('product.active', ["id" => $product->id]) }}" role="button">hết hàng</a>
+													<a class="btn btn-danger" href="{{ route('product.status', ["id" => $product->id]) }}" role="button">hết hàng</a>
 												@endif
 											</td>
 											<td>{{ $product->category->name }}</td>
@@ -82,11 +84,7 @@
 							</table>
 							<div align='right'>
 								<ul class="pagination">
-									<li class="page-item"><a class="page-link" href="#">Trở lại</a></li>
-									<li class="page-item"><a class="page-link" href="#">1</a></li>
-									<li class="page-item"><a class="page-link" href="#">2</a></li>
-									<li class="page-item"><a class="page-link" href="#">3</a></li>
-									<li class="page-item"><a class="page-link" href="#">tiếp theo</a></li>
+									{{ $products->links() }}
 								</ul>
 							</div>
 						</div>

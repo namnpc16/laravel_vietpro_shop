@@ -7,7 +7,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6">
-				<a href="shop.html" class="f-product-1" style="background-image: url(images/i1.jpg);">
+				<a href="{{route('product.shop')}}" class="f-product-1" style="background-image: url(images/i1.jpg);">
 					<div class="desc">
 						<h2>Mẫu <br>cho <br>Nam</h2>
 					</div>
@@ -83,84 +83,33 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-3 text-center">
-				<div class="product-entry">
-					<div class="product-img" style="background-image: url(images/quan-kaki-xanh-den-qk171-9771.jpg);">
-						<div class="cart">
-							<p>
-								<span class="addtocart"><a href="cart.html"><i
-											class="icon-shopping-cart"></i></a></span>
-								<span><a href="detail.html"><i class="icon-eye"></i></a></span>
-
-
-							</p>
+			<form action="{{route('create.cart')}}" id="frm_add" method="post">
+				@csrf
+				<input type="hidden" name="id_product" id="id_product">
+				<input type="hidden" name="quantity" id="qty">
+			</form>
+			@foreach($featured as $product)
+				<div class="col-md-3 text-center">
+					<div class="product-entry">
+						<div class="product-img" style="background-image: url('../img/{{$product->img}}');">
+							<div class="cart">
+								<span id="id" data-id="{{ $product->id }}" ></span>
+								<p>
+								<span class="addtocart"><a class="add_cart" href="javascrip:void(0)"><i
+												class="icon-shopping-cart"></i></a></span>
+									<span><a href="{{route('product.detail', ['slug' => $product->slug])}}"><i class="icon-eye"></i></a></span>
+								</p>
+							</div>
+						</div>
+						<div class="desc">
+							<h3><a href="{{route('product.detail', ['slug' => $product->slug])}}">{{$product->name}}</a></h3>
+							<p class="price"><span>{{number_format($product->price, 0, ',','.')}} đ</span></p>
 						</div>
 					</div>
-					<div class="desc">
-						<h3><a href="detail.html">Quần kaki xanh đen</a></h3>
-						<p class="price"><span>3.000.000 đ</span></p>
-					</div>
 				</div>
-			</div>
-			<div class="col-md-3 text-center">
-				<div class="product-entry">
-					<div class="product-img" style="background-image: url(images/ao-so-mi-trang-kem-asm836-8193.jpg);">
-						<div class="cart">
-							<p>
-								<span class="addtocart"><a href="cart.html"><i
-											class="icon-shopping-cart"></i></a></span>
-								<span><a href="detail.html"><i class="icon-eye"></i></a></span>
+			@endforeach
 
 
-							</p>
-						</div>
-					</div>
-					<div class="desc">
-						<h3><a href="detail.html">Áo trắng kẻ vằn</a></h3>
-						<p class="price"><span>3.000.000 đ</span></p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 text-center">
-				<div class="product-entry">
-					<div class="product-img" style="background-image: url(images/6ds19c007.jpg);">
-
-						<div class="cart">
-							<p>
-								<span class="addtocart"><a href="cart.html"><i
-											class="icon-shopping-cart"></i></a></span>
-								<span><a href="detail.html"><i class="icon-eye"></i></a></span>
-
-
-							</p>
-						</div>
-					</div>
-					<div class="desc">
-						<h3><a href="detail.html">Áo nữ trắng bạch</a></h3>
-						<p class="price"><span>3.000.000 đ</span></p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 text-center">
-				<div class="product-entry">
-					<div class="product-img" style="background-image: url(images/ao-nu-so-mi-co-co-duc.jpg);">
-
-						<div class="cart">
-							<p>
-								<span class="addtocart"><a href="cart.html"><i
-											class="icon-shopping-cart"></i></a></span>
-								<span><a href="detail.html"><i class="icon-eye"></i></a></span>
-
-
-							</p>
-						</div>
-					</div>
-					<div class="desc">
-						<h3><a href="detail.html">Áo sơ mi có cổ kẻ ô xám</a></h3>
-						<p class="price"><span>3.000.000 đ</span></p>
-					</div>
-				</div>
-			</div>
 		</div>
 	</div>
 </div>
@@ -174,173 +123,41 @@
 		</div>
 
 		<div class="row">
-			<div class="col-md-3 text-center">
-				<div class="product-entry">
-					<div class="product-img" style="background-image: url(images/ao-so-mi-trang-kem-asm836-8193.jpg);">
-						<p class="tag"><span class="new">New</span></p>
-						<div class="cart">
-							<p>
+			@foreach($new as $product)
+				<div class="col-md-3 text-center">
+					<div class="product-entry">
+						<div class="product-img" style="background-image: url('../img/{{$product->img}}');">
+							<p class="tag"><span class="new">New</span></p>
+							<div class="cart">
+								<p>
 								<span class="addtocart"><a href="cart.html"><i
-											class="icon-shopping-cart"></i></a></span>
-								<span><a href="detail.html"><i class="icon-eye"></i></a></span>
-
-
-							</p>
+												class="icon-shopping-cart"></i></a></span>
+									<span><a href="{{route('product.detail', ['slug' => $product->slug])}}"><i class="icon-eye"></i></a></span>
+								</p>
+							</div>
+						</div>
+						<div class="desc">
+							<h3><a href="{{route('product.detail', ['slug' => $product->slug])}}">{{$product->name}}</a></h3>
+							<p class="price"><span>{{number_format($product->price,0, ',', '.')}} đ</span></p>
 						</div>
 					</div>
-					<div class="desc">
-						<h3><a href="detail.html">Áo trắng kẻ vằn</a></h3>
-						<p class="price"><span>3.000.000 đ</span></p>
-					</div>
 				</div>
-			</div>
-			<div class="col-md-3 text-center">
-				<div class="product-entry">
-					<div class="product-img" style="background-image: url(images/6ds19c007.jpg);">
-						<p class="tag"><span class="new">New</span></p>
+			@endforeach
 
-						<div class="cart">
-							<p>
-								<span class="addtocart"><a href="cart.html"><i
-											class="icon-shopping-cart"></i></a></span>
-								<span><a href="detail.html"><i class="icon-eye"></i></a></span>
-
-
-							</p>
-						</div>
-					</div>
-					<div class="desc">
-						<h3><a href="detail.html">Áo nữ trắng bạch</a></h3>
-						<p class="price"><span>3.000.000 đ</span></p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 text-center">
-				<div class="product-entry">
-					<div class="product-img" style="background-image: url(images/ao-nu-so-mi-co-co-duc.jpg);">
-						<p class="tag"><span class="new">New</span></p>
-
-						<div class="cart">
-							<p>
-								<span class="addtocart"><a href="cart.html"><i
-											class="icon-shopping-cart"></i></a></span>
-								<span><a href="detail.html"><i class="icon-eye"></i></a></span>
-
-
-							</p>
-						</div>
-					</div>
-					<div class="desc">
-						<h3><a href="detail.html">Áo sơ mi có cổ kẻ ô xám</a></h3>
-						<p class="price"><span>3.000.000 đ</span></p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 text-center">
-				<div class="product-entry">
-					<div class="product-img" style="background-image: url(images/dam_nu_xoe_dep.jpg);">
-						<p class="tag"><span class="new">New</span></p>
-
-						<div class="cart">
-							<p>
-								<span class="addtocart"><a href="cart.html"><i
-											class="icon-shopping-cart"></i></a></span>
-								<span><a href="detail.html"><i class="icon-eye"></i></a></span>
-
-
-							</p>
-						</div>
-					</div>
-					<div class="desc">
-						<h3><a href="detail.html">Váy đầm xoè hoa nổi</a></h3>
-						<p class="price"><span>3.000.000 đ</span></p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 text-center">
-				<div class="product-entry">
-					<div class="product-img" style="background-image: url(images/Ao_nu_so_mi_cham_bi.jpg);">
-						<p class="tag"><span class="new">New</span></p>
-
-						<div class="cart">
-							<p>
-								<span class="addtocart"><a href="cart.html"><i
-											class="icon-shopping-cart"></i></a></span>
-								<span><a href="detail.html"><i class="icon-eye"></i></a></span>
-
-
-							</p>
-						</div>
-					</div>
-					<div class="desc">
-						<h3><a href="detail.html">Áo nữ chấm bi</a></h3>
-						<p class="price"><span>3.000.000 đ</span></p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 text-center">
-				<div class="product-entry">
-					<div class="product-img" style="background-image: url(images/ao-nu-phoi-vien.jpg);">
-						<p class="tag"><span class="new">New</span></p>
-
-						<div class="cart">
-							<p>
-								<span class="addtocart"><a href="cart.html"><i
-											class="icon-shopping-cart"></i></a></span>
-								<span><a href="detail.html"><i class="icon-eye"></i></a></span>
-
-
-							</p>
-						</div>
-					</div>
-					<div class="desc">
-						<h3><a href="detail.html">Áo nữ nổi viền</a></h3>
-						<p class="price"><span>3.000.000 đ</span></p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 text-center">
-				<div class="product-entry">
-					<div class="product-img" style="background-image: url(images/ao-so-mi-ca-ro-xam-xanh-asm1228-10199.jpg);">
-						<p class="tag"><span class="new">New</span></p>
-						<div class="cart">
-							<p>
-								<span class="addtocart"><a href="cart.html"><i
-											class="icon-shopping-cart"></i></a></span>
-								<span><a href="detail.html"><i class="icon-eye"></i></a></span>
-
-
-							</p>
-						</div>
-					</div>
-					<div class="desc">
-						<h3><a href="detail.html">Áo sơ mi ca rô xám xanh</a></h3>
-						<p class="price"><span>3.000.000 đ</span> </p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 text-center">
-				<div class="product-entry">
-					<div class="product-img" style="background-image: url(images/ao-so-mi-hoa-tiet-den-asm1223-10191.jpg);">
-						<p class="tag"><span class="new">New</span></p>
-						<div class="cart">
-							<p>
-								<span class="addtocart"><a href="cart.html"><i
-											class="icon-shopping-cart"></i></a></span>
-								<span><a href="detail.html"><i class="icon-eye"></i></a></span>
-
-
-							</p>
-						</div>
-					</div>
-					<div class="desc">
-						<h3><a href="detail.html">Áo hoạ tiết đen</a></h3>
-						<p class="price"><span>3.000.000 đ</span></p>
-					</div>
-				</div>
-			</div>
 			</div>
 		</div>
 	</div>
 </div>
+<script>
+	$(document).ready(function () {
+		$.('.add_cart').on('click', function (data) {
+			data.preventDefault();
+			console.log($('#id').attr('data-id'))
+			$('#id_product').val($('#id').attr('data-id'));
+			$('#qty').val();
+			// $('#frm_add').submit();
+		});
+	});
+</script>
+
 @endsection
